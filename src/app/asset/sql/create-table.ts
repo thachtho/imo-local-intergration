@@ -36,4 +36,29 @@ export const createTableQuery = `
         FOREIGN KEY (control_id) REFERENCES control(id) ON DELETE CASCADE,
         UNIQUE (role_id, control_id)
     );
+
+    DO $$
+    BEGIN
+        IF NOT EXISTS (SELECT 1 FROM agency) THEN
+            INSERT INTO agency (name) 
+            VALUES ('Quan tri vien');
+        END IF;
+    END $$;
+
+
+    DO $$
+    BEGIN
+        IF NOT EXISTS (SELECT 1 FROM role) THEN
+            INSERT INTO role (name) 
+            VALUES ('Admin');
+        END IF;
+    END $$;
+
+        DO $$
+    BEGIN
+        IF NOT EXISTS (SELECT 1 FROM users) THEN
+            INSERT INTO users (email, nickname, fullname, password, role_id, agencyid) 
+            VALUES ('admin@gmail.com', 'admin', 'admin', '111111', 1, 1);
+        END IF;
+    END $$;
 `;
