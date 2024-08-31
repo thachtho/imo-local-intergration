@@ -49,36 +49,55 @@ services:
       - postgres-volume:/var/lib/postgresql/data
     ports:
       - 5432:5432
-  # api-gateway:
-  #   build:
-  #     context: ./api-gateway
-  #     dockerfile: Dockerfile
-  #   container_name: apiGetway
-  #   restart: always
-  #   environment:
-  #     - KAFKAJS_NO_PARTITIONER_WARNING=1
-  #     - KAFKA_HOST=kafka
-  #     - KAFKA_PORT=19092
-  #   ports:
-  #     - '3001:3000'
-  # user-service:
-  #   build:
-  #     context: ./userService
-  #     dockerfile: Dockerfile
-  #   container_name: userService
-  #   restart: always
-  #   environment:
-  #     - DB_TYPE=postgres
-  #     - DB_HOST=postgres
-  #     - DB_PORT=5432
-  #     - DB_USERNAME=root
-  #     - DB_PASSWORD=111111
-  #     - DB_DATABASE=demo
-  #     - KAFKAJS_NO_PARTITIONER_WARNING=1
-  #     - KAFKA_HOST=kafka
-  #     - KAFKA_PORT=19092
-  #   ports:
-  #     - '4001:4000'
+  imo-bff:
+    build:
+      context: ./../imo-bff
+      dockerfile: Dockerfile
+    container_name: imoBff
+    restart: always
+    environment:
+      - KAFKAJS_NO_PARTITIONER_WARNING=1
+      - KAFKA_HOST=kafka
+      - KAFKA_PORT=19092
+    ports:
+      - '3001:3000'
+  auth-service:
+    build:
+      context: ./../auth-service
+      dockerfile: Dockerfile
+    container_name: authService
+    restart: always
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=root
+      - DB_PASSWORD=111111
+      - DB_DATABASE=demo
+      - KAFKAJS_NO_PARTITIONER_WARNING=1
+      - KAFKA_HOST=kafka
+      - KAFKA_PORT=19092
+      - USERSERVICE_HOST=user-service:5001
+    ports:
+      - '5000:5000'
+  user-service:
+    build:
+      context: ./../user-service
+      dockerfile: Dockerfile
+    container_name: userService
+    restart: always
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=root
+      - DB_PASSWORD=111111
+      - DB_DATABASE=demo
+      - KAFKAJS_NO_PARTITIONER_WARNING=1
+      - KAFKA_HOST=kafka
+      - KAFKA_PORT=19092
+    ports:
+      - '5001:5001'
 volumes:
   postgres-volume:
     driver: local
