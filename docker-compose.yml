@@ -49,6 +49,21 @@ services:
       - postgres-volume:/var/lib/postgresql/data
     ports:
       - 5432:5432
+  imo-local-intergration:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: imoLocalIntergration
+    restart: always
+    ports:
+      - '2999:2999'
+    environment:
+      - DB_TYPE=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=root
+      - DB_PASSWORD=111111
+      - DB_DATABASE=demo
   imo-bff:
     build:
       context: ./../imo-bff
@@ -60,7 +75,7 @@ services:
       - KAFKA_HOST=kafka
       - KAFKA_PORT=19092
     ports:
-      - '3001:3000'
+      - '3000:3000'
   auth-service:
     build:
       context: ./../auth-service
