@@ -74,6 +74,8 @@ services:
       - KAFKAJS_NO_PARTITIONER_WARNING=1
       - KAFKA_HOST=kafka
       - KAFKA_PORT=19092
+      - USER_SERVICE_HOST=user-service:5001
+      - ROLE_SERVICE_HOST=role-service:5002
     ports:
       - '3000:3000'
   auth-service:
