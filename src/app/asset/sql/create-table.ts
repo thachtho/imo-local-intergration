@@ -9,17 +9,17 @@ export const createTableQuery = `
         name VARCHAR(255) NOT NULL
     );
 
-    CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        email VARCHAR(255) NOT NULL,
-        nickname VARCHAR(255) NOT NULL,
-        fullname VARCHAR(255) NOT NULL,
-        password VARCHAR(255) NOT NULL,
-        role_id INT NOT NULL,
-        agencyId INT NOT NULL,
-        FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE RESTRICT,
-        FOREIGN KEY (agencyId) REFERENCES agency(id) ON DELETE RESTRICT
-    );
+	CREATE TABLE IF NOT EXISTS users (
+	    id SERIAL PRIMARY KEY,
+	    email VARCHAR(255) UNIQUE,
+	    nickname VARCHAR(255) NOT NULL UNIQUE,
+	    fullname VARCHAR(255) NOT NULL,
+	    password VARCHAR(255) NOT NULL,
+	    role_id INT NOT NULL,
+	    agency_id INT NOT NULL,
+	    FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE RESTRICT,
+	    FOREIGN KEY (agency_id) REFERENCES agency(id) ON DELETE RESTRICT
+	);
 
     CREATE TABLE IF NOT EXISTS control (
         id SERIAL PRIMARY KEY,
