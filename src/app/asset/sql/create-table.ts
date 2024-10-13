@@ -36,6 +36,14 @@ export const createTableQuery = `
         FOREIGN KEY (control_id) REFERENCES control(id) ON DELETE CASCADE,
         UNIQUE (role_id, control_id)
     );
+    
+     CREATE TABLE IF NOT EXISTS courses (
+        id SERIAL PRIMARY KEY,
+        start INT NOT NULL,
+        "end" INT NOT NULL,
+        organization_id INT NOT NULL,
+        name VARCHAR(255) NOT NULL
+    );
 
     DO $$
     BEGIN
